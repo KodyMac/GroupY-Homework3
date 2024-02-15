@@ -14,7 +14,13 @@ public class MediaProduct {
 			this.year=year;
 			this.genre=genre;
 		}
-			//vinyl subclass
+			public MediaProduct(CDRecordProduct cdRecordProduct) {
+		}
+			public MediaProduct(VinylRecordProduct vinylRecordProduct) {
+		}
+		public MediaProduct(TapeRecordProduct tapeRecordProduct) {
+			}
+		//vinyl subclass
 		class VinylRecordProduct extends MediaProduct {
 			public VinylRecordProduct(String title, double price, int year, Genre genre) {
 				super(title,price,year,genre);
@@ -86,5 +92,9 @@ public class MediaProduct {
 		
 		protected void setGenre(Genre genre) {
 			this.genre=genre;
+		}
+		
+		public String toString() {
+			return "Title: " + title + ", Price: " + price + ", Year: " + year + ", Genre: " + genre;
 		}
 	}
