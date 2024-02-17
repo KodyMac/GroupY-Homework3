@@ -6,7 +6,7 @@ public class MediaProduct {
 		protected double price;
 		protected int year;
 		protected Genre genre;
-		
+		protected String type;
 			//Constructor
 		public MediaProduct(String title, double price, int year, Genre genre) {
 			this.title=title;
@@ -96,5 +96,12 @@ public class MediaProduct {
 		
 		public String toString() {
 			return "Title: " + title + ", Price: " + price + ", Year: " + year + ", Genre: " + genre;
+		}
+		public String getType() {
+			return type;
+		}
+
+		public void setType(String type) {
+			this.type = type;
 		}
 	}

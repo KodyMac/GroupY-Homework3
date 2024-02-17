@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
-import java.io.BufferedWriter;
+//import java.io.BufferedWriter;
 import java.io.FileWriter;
 
 
@@ -97,6 +97,36 @@ public class StockManagerSingleton {
 		return false;
 	}
 	//public boolean saveStock()
+	public boolean saveStock() {
+        try (FileWriter writer = new FileWriter(logFilePath)) {
+            String[] headers = { "Type", "Title", "Price", "Year", "Genre" };
+            for (int i = 0; i < headers.length; i++) {
+                writer.append(headers[i]);
+                if (i < headers.length - 1) {
+                    writer.append(", ");
+                }
+            }
+            writer.append(System.getProperty("line.separator"));
+
+            for (MediaProduct product : productList) {
+                if (product instanceof CDRecordProduct) {
+                    writer.write("CD, " + product.getTitle() + "," + product.getPrice() + "," + product.getYear()
+                            + "," + product.getGenre() + System.getProperty("line.separator"));
+                } else if (product instanceof TapeRecordProduct) {
+                    writer.write("Tape," + product.getTitle() + "," + product.getPrice() + "," + product.getYear()
+                            + "," + product.getGenre() + System.getProperty("line.separator"));
+                } else {
+                    writer.write("Vinyl," + product.getTitle() + "," + product.getPrice() + "," + product.getYear()
+                            + "," + product.getGenre() + System.getProperty("line.separator"));
+                }
+            }
+            return true;
+        } catch (IOException e) {
+            System.out.println("An error has occurred");
+            e.printStackTrace();
+            return false;
+        }
+    }
 	
 	public ArrayList<MediaProduct> getMediaProductsBelowPrice(int maxPrice) {
 		for (MediaProduct product: productList) {
@@ -116,7 +146,40 @@ public class StockManagerSingleton {
 			System.out.println(product);
 		}
 	}
-	//public ArrayList<VinylRecordProduct> getVinylRecordList(ArrayList<MediaProduct> productList) {}
-	//public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList) {}
-	//public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList) {}
+	
+	public ArrayList<VinylRecordProduct> getVinylRecordList(ArrayList<MediaProduct> productList) {
+        ArrayList<VinylRecordProduct> vinylRecordList = new ArrayList<>();
+        for (MediaProduct product : productList) {
+        	if ("Vinyl".equals(product.getType())) {
+                if (product instanceof VinylRecordProduct) {
+                    vinylRecordList.add((VinylRecordProduct) product);
+                }
+            }
+        }
+        return vinylRecordList;
+    }
+
+    public ArrayList<CDRecordProduct> getCDRecordList(ArrayList<MediaProduct> productList) {
+        ArrayList<CDRecordProduct> CDRecordList = new ArrayList<>();
+        for (MediaProduct product : productList) {
+        	if ("CD".equals(product.getType())) {
+                if (product instanceof CDRecordProduct) {
+                    CDRecordList.add((CDRecordProduct) product);
+                }
+            }
+        }
+        return CDRecordList;
+    }
+
+    public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList) {
+        ArrayList<TapeRecordProduct> TapeRecordList = new ArrayList<>();
+        for (MediaProduct product : productList) {
+        	if ("Tape".equals(product.getType())) {
+                if (product instanceof TapeRecordProduct) {
+                    TapeRecordList.add((TapeRecordProduct) product);
+                }
+            }
+        }
+        return TapeRecordList;
+    }
 }
